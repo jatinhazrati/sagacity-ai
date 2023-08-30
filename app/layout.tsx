@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sagacity AI",
-  description: "AI Platform",
+  description: "AI SaaS Platform",
 };
 
 export default function RootLayout({
