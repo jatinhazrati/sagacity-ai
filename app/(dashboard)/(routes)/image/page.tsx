@@ -17,11 +17,13 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
+import { useProModal } from "@/hooks/use-pro-modal";
 import axios from "axios";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 
 const ImagePage = () => {
     const router = useRouter();
+    const proModal = useProModal();
     const [images, setImages] = useState<string[]>([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -45,8 +47,9 @@ const ImagePage = () => {
 
             form.reset();
         } catch (error: any) {
-            //TODO: Open Pro Modal
-            console.log(error);
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             router.refresh();
         }

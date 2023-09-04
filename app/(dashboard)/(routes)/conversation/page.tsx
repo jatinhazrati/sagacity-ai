@@ -12,18 +12,20 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { BotAvatar } from '@/components/bot-avatar';
 import { Empty } from '@/components/empty';
 import { Loader } from '@/components/loader';
+import { UserAvatar } from '@/components/user-avatar';
+import { useProModal } from '@/hooks/use-pro-modal';
 import { cn } from '@/lib/utils';
 import { useRouter } from "next/navigation";
 import { ChatCompletionRequestMessage } from "openai";
 import { useState } from "react";
 import { formSchema } from "./constants";
-import { UserAvatar } from '@/components/user-avatar';
-import { BotAvatar } from '@/components/bot-avatar';
 
 const ConversationPage = () => {
     const router = useRouter();
+    const proModal = useProModal();
     const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -46,8 +48,9 @@ const ConversationPage = () => {
 
             form.reset();
         } catch (error: any) {
-            //TODO: Open Pro Modal
-            console.log(error);
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            }
         } finally {
             router.refresh();
         }
