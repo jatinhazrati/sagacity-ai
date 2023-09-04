@@ -8,10 +8,11 @@ import { useProModal } from "@/hooks/use-pro-modal";
 import { Button } from "./ui/button";
 
 interface IFreeCounterProps {
-    apiLimitCount: number
+    apiLimitCount: number;
+    isPro: boolean
 }
 
-export const FreeCounter = ({ apiLimitCount = 0 }: IFreeCounterProps) => {
+export const FreeCounter = ({ apiLimitCount = 0, isPro = false }: IFreeCounterProps) => {
     const proModal = useProModal();
     const [mounted, setMounted] = useState(false);
 
@@ -23,6 +24,10 @@ export const FreeCounter = ({ apiLimitCount = 0 }: IFreeCounterProps) => {
         return null;
     }
 
+    if(isPro){
+        return null;
+    }
+    
     return (
         <div className="px-3">
             <Card className="bg-white/10 border-0">
