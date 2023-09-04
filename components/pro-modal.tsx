@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import axios from "axios";
 import { Check, Zap } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { Button } from "./ui/button";
 
 export const ProModal = () => {
@@ -27,8 +28,7 @@ export const ProModal = () => {
 
             window.location.href = response.data.url;
         } catch (error) {
-            console.log(error, "STRIPE_CLIENT_ERROR")
-            // toast.error("Something went wrong");
+            toast.error("STRIPE_CLIENT_ERROR");
         } finally {
             setLoading(false);
         }
@@ -68,6 +68,7 @@ export const ProModal = () => {
                         variant="premium"
                         className="w-full"
                         onClick={onSubscribe}
+                        disabled={loading}
                     >
                         Upgrade
                         <Zap className="w-4 h-4 ml-2 fill-white" />
